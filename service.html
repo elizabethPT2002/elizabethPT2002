@@ -27,33 +27,33 @@
       
         // Your web app's Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyAoW_IS1_laqJu55rU190mAxuqeHop9Kic",
-          authDomain: "mi-pagina-77762.firebaseapp.com",
-          projectId: "mi-pagina-77762",
-          storageBucket: "mi-pagina-77762.appspot.com",
-          messagingSenderId: "609623275772",
-          appId: "1:609623275772:web:45f2bf53d170831fd9ff79"
+          apiKey: "AIzaSyBMJsVpnbOwVOiVNbTZScZdet9qlGigDL0",
+          authDomain: "conexion-8ec0d.firebaseapp.com",
+          databaseURL: "https://conexion-8ec0d-default-rtdb.firebaseio.com",
+          projectId: "conexion-8ec0d",
+          storageBucket: "conexion-8ec0d.appspot.com",
+          messagingSenderId: "679910299749",
+          appId: "1:679910299749:web:9800b464879628b4850e8c"
         };
       
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-     
+
         window.crearRegistro = function () {
             const nombre = document.getElementById("nombre").value;
             const edad = document.getElementById("edad").value;
             console.log(nombre, edad);
-
+            
             push(
                 ref(database, 'septimo'),
                 {
-                name: nombre,
-                age: edad
+                    name: nombre,
+                    age: edad 
                 }
             );
-          
-    
-      </script>
 
+        }
+      </script>
 </body>
 </html>
