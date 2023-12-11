@@ -15,6 +15,10 @@
       height: 100vh;
     }
     .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       width: 80%;
       max-width: 600px;
       margin: 50px auto;
@@ -23,11 +27,16 @@
       border-radius: 10px;
     }
     form {
+      width: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
-    label, input {
+    label,
+    input {
       margin-bottom: 10px;
+      width: 100%;
+      max-width: 300px;
     }
     input[type="submit"] {
       padding: 10px;
@@ -37,9 +46,33 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
+      width: 100%;
+      max-width: 300px;
     }
     input[type="submit"]:hover {
       background-color: #2980b9;
+    }
+    /* Estilos para los botones */
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+      width: 100px;
+    }
+    #insertarBtn {
+      background-color: #27ae60; /* Verde */
+      color: white;
+    }
+    #actualizarBtn {
+      background-color: #f39c12; /* Naranja */
+      color: white;
+    }
+    #eliminarBtn {
+      background-color: #e74c3c; /* Rojo */
+      color: white;
     }
   </style>
 </head>
@@ -64,40 +97,34 @@
     <label for="temporada">Temporada:</label>
     <input type="text" id="temporada" name="temporada">
 
-   
-  <!-- Botones -->
-  <input type="submit" id="guardarBtn" value="Guardar Fruta">
-  <button type="button" id="insertarBtn">Insertar</button>
-  <button type="button" id="actualizarBtn">Actualizar</button>
-  <button type="button" id="eliminarBtn">Eliminar</button>
-</form>
+    <!-- Botones -->
+    <input type="submit" id="guardarBtn" value="Guardar Fruta">
+    <button type="button" id="insertarBtn">Insertar</button>
+    <button type="button" id="actualizarBtn">Actualizar</button>
+    <button type="button" id="eliminarBtn">Eliminar</button>
+  </form>
 </div>
 
 <script>
-// JavaScript para manejar las acciones de los botones (simulación)
+  // JavaScript para manejar las acciones de los botones (simulación)
+  function insertarRegistro() {
+    alert('Función insertarRegistro() aún no implementada.');
+    // Aquí puedes agregar lógica para insertar un nuevo registro en la base de datos
+  }
 
-// Función para insertar un registro (simulación)
-function insertarRegistro() {
-  alert('Función insertarRegistro() aún no implementada.');
-  // Aquí puedes agregar lógica para insertar un nuevo registro en la base de datos
-}
+  function actualizarRegistro() {
+    alert('Función actualizarRegistro() aún no implementada.');
+    // Aquí puedes agregar lógica para actualizar un registro existente en la base de datos
+  }
 
-// Función para actualizar un registro (simulación)
-function actualizarRegistro() {
-  alert('Función actualizarRegistro() aún no implementada.');
-  // Aquí puedes agregar lógica para actualizar un registro existente en la base de datos
-}
+  function eliminarRegistro() {
+    alert('Función eliminarRegistro() aún no implementada.');
+    // Aquí puedes agregar lógica para eliminar un registro de la base de datos
+  }
 
-// Función para eliminar un registro (simulación)
-function eliminarRegistro() {
-  alert('Función eliminarRegistro() aún no implementada.');
-  // Aquí puedes agregar lógica para eliminar un registro de la base de datos
-}
-
-// Event listeners para los botones
-document.getElementById('insertarBtn').addEventListener('click', insertarRegistro);
-document.getElementById('actualizarBtn').addEventListener('click', actualizarRegistro);
-document.getElementById('eliminarBtn').addEventListener('click', eliminarRegistro);
+  document.getElementById('insertarBtn').addEventListener('click', insertarRegistro);
+  document.getElementById('actualizarBtn').addEventListener('click', actualizarRegistro);
+  document.getElementById('eliminarBtn').addEventListener('click', eliminarRegistro);
 </script>
 
 </body>
