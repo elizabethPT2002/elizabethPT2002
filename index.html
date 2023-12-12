@@ -98,11 +98,10 @@
     <input type="text" id="temporada" name="temporada">
 
     <!-- Botones -->
-    <button type="button" onclick="crearRegistro()">Crear</button>
- 
-    <button type="button" id="insertarBtn">Insertar</button>
-    <button type="button" id="actualizarBtn">Actualizar</button>
-    <button type="button" id="eliminarBtn">Eliminar</button>
+    <button type="button" onclick="guardarfruta()">Insertar</button>
+    <button type="button" id="insertarBtn" onclick="buscarfruta()">Consultar</button>
+    <button type="button" id="actualizarBtn" onclick="">Actualizar</button>
+    <button type="button" id="eliminarBtn" onclick="eliminarfruta(document.getElementById('nombre').value)">Eliminar</button>
   </form>
 </div>
 
@@ -130,20 +129,22 @@
             const database = getDatabase(app);
 
            //CREAR REGISTRO
-      window.crearRegistro = function () {
+      window.guardarfruta = function () {
       const nombre = document.getElementById("nombre").value;
       const Precio = document.getElementById("color").value;
       const sabor = document.getElementById("sabor").value;
       const origen = document.getElementById("origen").value;
       const temporada = document.getElementById("temporada").value;
-      console.log(nombre, color, sabor, origen, temporada);
+      console.log(nombre, Precio, sabor, origen, temporada);
       push( 
         ref(database, 'Elizabeth_Pilatasig'),
         {
-          Nombre: nombre,
-          Descripción: Descripción,
-          Precio: Precio,
-          Cantidad: Cantidad 
+          Nombre:nombre,
+          Color:Precio,
+          Sabor:sabor,
+          Origen:origen,
+          Temporada:temporada
+          
         }).then(() => {
         // Mensaje de éxito y limpieza de los campos
         alert('Producto registrado con éxito', 'exito');
@@ -158,8 +159,8 @@
       });
     };     
     //Consultar Datos
-    window.buscarProductoPorNombre = function () {
-    const nombreProductoBuscado = document.getElementById('nombreProducto').value;
+    window.buscarfruta = function () {
+    const nombreProductoBuscado = document.getElementById('nombre').value;
     consultarRegistrosPorNombre(nombreProductoBuscado);
     };
     window.consultarRegistrosPorNombre = function (nombreProductoBuscado) {
@@ -175,11 +176,11 @@
             }
           }
           if (productoEncontrado) {
-            document.getElementById('nombreProducto').value = productoEncontrado.Nombre || '';
-            document.getElementById('colorProducto').value = productoEncontrado.Color || '';
-            document.getElementById('saborProducto').value = productoEncontrado.Sabor || '';
-            document.getElementById('origenProducto').value = productoEncontrado.Origen || '';
-            document.getElementById('temporadaProducto').value = productoEncontrado.Temporada || '';
+            document.getElementById('nombr').value = productoEncontrado.Nombre || '';
+            document.getElementById('color').value = productoEncontrado.Color || '';
+            document.getElementById('sabor').value = productoEncontrado.Sabor || '';
+            document.getElementById('origen').value = productoEncontrado.Origen || '';
+            document.getElementById('temporada').value = productoEncontrado.Temporada || '';
             alert('Producto encontrado: ' + productoEncontrado.Nombre);
           } else {
             // Manejar el caso en que el producto no se encuentra
@@ -191,7 +192,7 @@
         });
       };
       //Actualizar datos
-      window.actualizarDatosProducto = function () {
+      window.actualizarfruta = function () {
       const nombreProducto = document.getElementById('nombre').value;
       const nuevacolor = document.getElementById('color ').value;
       const nuevosabor = document.getElementById('sabor').value;
@@ -218,16 +219,16 @@
             update(productoRef, {
               Nombre: nombreProducto,
               Color: nuevacolor,
-              sabor: nuevosabor,
-              origen: nuevaorigen,
-              tiempo: nuevatemporada
+              Sabor: nuevosabor,
+              Origen: nuevaorigen,
+              Tiempo: nuevatemporada
             }).then(() => {
               alert('Datos actualizados con éxito');
-              document.getElementById("nombreProducto").value = '';
-              document.getElementById("colorProducto").value = '';
-              document.getElementById("saborProducto").value = '';
-              document.getElementById("origenProducto").value = '';
-              document.getElementById("temporadaProducto").value = '';
+              document.getElementById("nombre").value = '';
+              document.getElementById("color").value = '';
+              document.getElementById("sabor").value = '';
+              document.getElementById("origen").value = '';
+              document.getElementById("temporada").value = '';
             }).catch((error) => {
               alert('Error al actualizar datos:', error);
             });
@@ -240,7 +241,7 @@
       });
     };     
   //eliminar Registro
-  window.eliminarProductoPorNombre = function (nombreProducto) {
+  window.eliminarfruta = function (nombre) {
   const db = getDatabase();
   const registrosRef = ref(db, 'Elizabeth_Pilatasig/');
   onValue(registrosRef, (snapshot) => {
@@ -248,7 +249,7 @@
     let productoKey = null;
 
     for (const key in data) {
-      if (data[key].Nombre === nombreProducto) {
+      if (data[key].Nombre === nombre) {
         productoKey = key;
         break;
       }
@@ -259,11 +260,11 @@
       remove(productoRef)
         .then(() => {
           alert('Producto eliminado con éxito');
-          document.getElementById("nombreProducto").value = '';
-          document.getElementById("colorProducto").value = '';
-          document.getElementById("saborProducto").value = '';
-          document.getElementById("origenProducto").value = '';
-          document.getElementById("temporadaProducto").value = '';
+          document.getElementById("nombre").value = '';
+          document.getElementById("color").value = '';
+          document.getElementById("sabor").value = '';
+          document.getElementById("origen").value = '';
+          document.getElementById("temporada").value = '';
         })
         .catch((error) => {
           alert('Error al eliminar el producto:', error);
