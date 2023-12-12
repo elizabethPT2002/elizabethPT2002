@@ -160,23 +160,23 @@
     };     
     //Consultar Datos
     window.buscarfruta = function () {
-    const nombreProductoBuscado = document.getElementById('nombre').value;
-    consultarRegistrosPorNombre(nombreProductoBuscado);
+    const nombrefruta = document.getElementById('nombre').value;
+    consultarRegistrosPorNombre(nombrefruta);
     };
-    window.consultarRegistrosPorNombre = function (nombreProductoBuscado) {
+    window.consultarRegistrosPorNombre = function (nombrefruta) {
       const registrosRef = ref(database, 'Elizabeth_Pilatasig/');
       onValue(registrosRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
           let productoEncontrado = null;
           for (const key in data) {
-            if (data[key].Nombre === nombreProductoBuscado) {
+            if (data[key].Nombre === nombrefruta) {
               productoEncontrado = data[key];
               break;
             }
           }
           if (productoEncontrado) {
-            document.getElementById('nombr').value = productoEncontrado.Nombre || '';
+            document.getElementById('nombre').value = productoEncontrado.Nombre || '';
             document.getElementById('color').value = productoEncontrado.Color || '';
             document.getElementById('sabor').value = productoEncontrado.Sabor || '';
             document.getElementById('origen').value = productoEncontrado.Origen || '';
