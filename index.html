@@ -21,7 +21,7 @@
       align-items: center;
       width: 80%;
       max-width: 600px;
-      margin: 50px auto;
+      margin: 50px auto;  
       padding: 20px;
       background: rgba(255, 255, 255, 0.8);
       border-radius: 10px;
@@ -98,34 +98,183 @@
     <input type="text" id="temporada" name="temporada">
 
     <!-- Botones -->
-    <input type="submit" id="guardarBtn" value="Guardar Fruta">
+    <button type="button" onclick="crearRegistro()">Crear</button>
+ 
     <button type="button" id="insertarBtn">Insertar</button>
     <button type="button" id="actualizarBtn">Actualizar</button>
     <button type="button" id="eliminarBtn">Eliminar</button>
   </form>
 </div>
 
-<script>
-  // JavaScript para manejar las acciones de los botones (simulación)
-  function insertarRegistro() {
-    alert('Función insertarRegistro() aún no implementada.');
-    // Aquí puedes agregar lógica para insertar un nuevo registro en la base de datos
-  }
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+            import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+            // TODO: Add SDKs for Firebase products that you want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+          
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+              apiKey: "AIzaSyBRggj1lV_yQH5ZzkfW0jOU4kbVbe_6KEM",
+              authDomain: "septimo-utc-daad5.firebaseapp.com",
+              databaseURL: "https://septimo-utc-daad5-default-rtdb.firebaseio.com",
+              projectId: "septimo-utc-daad5",
+              storageBucket: "septimo-utc-daad5.appspot.com",
+              messagingSenderId: "191290662072",
+              appId: "1:191290662072:web:d015dadb4333b34d2ba84d"
+            };
+             
+          
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
 
-  function actualizarRegistro() {
-    alert('Función actualizarRegistro() aún no implementada.');
-    // Aquí puedes agregar lógica para actualizar un registro existente en la base de datos
-  }
+           //CREAR REGISTRO
+      window.crearRegistro = function () {
+      const nombre = document.getElementById("nombre").value;
+      const Precio = document.getElementById("color").value;
+      const sabor = document.getElementById("sabor").value;
+      const origen = document.getElementById("origen").value;
+      const temporada = document.getElementById("temporada").value;
+      console.log(nombre, color, sabor, origen, temporada);
+      push( 
+        ref(database, 'Elizabeth_Pilatasig'),
+        {
+          Nombre: nombre,
+          Descripción: Descripción,
+          Precio: Precio,
+          Cantidad: Cantidad 
+        }).then(() => {
+        // Mensaje de éxito y limpieza de los campos
+        alert('Producto registrado con éxito', 'exito');
+        document.getElementById("nombre").value = '';
+        document.getElementById("color").value = '';
+        document.getElementById("sabor").value = '';
+        document.getElementById("origen").value = '';
+        document.getElementById("temporada").value = '';
+      }).catch((error) => {
+        // Mensaje de error
+        alert('Error al registrar el producto: ' + error.message, 'error');
+      });
+    };     
+    //Consultar Datos
+    window.buscarProductoPorNombre = function () {
+    const nombreProductoBuscado = document.getElementById('nombreProducto').value;
+    consultarRegistrosPorNombre(nombreProductoBuscado);
+    };
+    window.consultarRegistrosPorNombre = function (nombreProductoBuscado) {
+      const registrosRef = ref(database, 'Elizabeth_Pilatasig/');
+      onValue(registrosRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          let productoEncontrado = null;
+          for (const key in data) {
+            if (data[key].Nombre === nombreProductoBuscado) {
+              productoEncontrado = data[key];
+              break;
+            }
+          }
+          if (productoEncontrado) {
+            document.getElementById('nombreProducto').value = productoEncontrado.Nombre || '';
+            document.getElementById('colorProducto').value = productoEncontrado.Color || '';
+            document.getElementById('saborProducto').value = productoEncontrado.Sabor || '';
+            document.getElementById('origenProducto').value = productoEncontrado.Origen || '';
+            document.getElementById('temporadaProducto').value = productoEncontrado.Temporada || '';
+            alert('Producto encontrado: ' + productoEncontrado.Nombre);
+          } else {
+            // Manejar el caso en que el producto no se encuentra
+            alert('Producto no encontrado');
+          }
+        }
+      }, {
+        onlyOnce: true
+        });
+      };
+      //Actualizar datos
+      window.actualizarDatosProducto = function () {
+      const nombreProducto = document.getElementById('nombre').value;
+      const nuevacolor = document.getElementById('color ').value;
+      const nuevosabor = document.getElementById('sabor').value;
+      const nuevaorigen = document.getElementById('origen').value;
+      const nuevatemporada = document.getElementById('temporada').value;
 
-  function eliminarRegistro() {
-    alert('Función eliminarRegistro() aún no implementada.');
-    // Aquí puedes agregar lógica para eliminar un registro de la base de datos
-  }
+      // Referencia a la base de datos de Firebase
+      const registrosRef = ref(database, 'Elizabeth_Pilatasig/');
 
-  document.getElementById('insertarBtn').addEventListener('click', insertarRegistro);
-  document.getElementById('actualizarBtn').addEventListener('click', actualizarRegistro);
-  document.getElementById('eliminarBtn').addEventListener('click', eliminarRegistro);
-</script>
+      // Buscar el ID del producto basado en el nombre
+      onValue(registrosRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          let productoID = null;
+          for (const key in data) {
+            if (data[key].Nombre === nombreProducto) {
+              productoID = key;
+              break;
+            }
+          }
+          if (productoID) {
+            // Actualizar los datos del producto en Firebase
+            const productoRef = ref(database, `Elizabeth_Pilatasig/${productoID}`);
+            update(productoRef, {
+              Nombre: nombreProducto,
+              Color: nuevacolor,
+              sabor: nuevosabor,
+              origen: nuevaorigen,
+              tiempo: nuevatemporada
+            }).then(() => {
+              alert('Datos actualizados con éxito');
+              document.getElementById("nombreProducto").value = '';
+              document.getElementById("colorProducto").value = '';
+              document.getElementById("saborProducto").value = '';
+              document.getElementById("origenProducto").value = '';
+              document.getElementById("temporadaProducto").value = '';
+            }).catch((error) => {
+              alert('Error al actualizar datos:', error);
+            });
+          } else {
+            alert('Producto no encontrado para actualizar');
+          }
+        }
+      }, {
+        onlyOnce: true
+      });
+    };     
+  //eliminar Registro
+  window.eliminarProductoPorNombre = function (nombreProducto) {
+  const db = getDatabase();
+  const registrosRef = ref(db, 'Elizabeth_Pilatasig/');
+  onValue(registrosRef, (snapshot) => {
+    const data = snapshot.val();
+    let productoKey = null;
 
-</body>
+    for (const key in data) {
+      if (data[key].Nombre === nombreProducto) {
+        productoKey = key;
+        break;
+      }
+    }
+
+    if (productoKey) {
+      const productoRef = ref(db, `Elizabeth_Pilatasig/${productoKey}`);
+      remove(productoRef)
+        .then(() => {
+          alert('Producto eliminado con éxito');
+          document.getElementById("nombreProducto").value = '';
+          document.getElementById("colorProducto").value = '';
+          document.getElementById("saborProducto").value = '';
+          document.getElementById("origenProducto").value = '';
+          document.getElementById("temporadaProducto").value = '';
+        })
+        .catch((error) => {
+          alert('Error al eliminar el producto:', error);
+        });
+    } else {
+      console.log('Producto no encontrado para eliminar');
+    }
+  }, {
+    onlyOnce: true
+  });
+};
+          </script>
+    </body>
 </html>
